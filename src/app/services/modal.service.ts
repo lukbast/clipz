@@ -5,15 +5,41 @@ import { Injectable } from '@angular/core';
 })
 export class ModalService {
   
-  private visible:boolean = false
+  private modals: Map<string, boolean> = new Map<string, boolean>()
 
   constructor() { }
 
-  public getVisible() {
-    return this.visible
+  public register(id: string) {
+    if (this.modals.get(id) !== undefined){
+      throw(`ModalService: Modal with ID ${id} is registered already.`)
+    } else {
+      this.modals.set(id, false)
+    }
   }
 
-  public toggle(){
-    this.visible = !this.visible
+  public unregister(id: string) {
+    if (this.modals.get(id) === undefined){
+      throw(`ModalService: Modal with ID ${id} is not registered.`)
+    } else {
+      this.modals.delete(id)
+    }
+  }
+
+  public isModalOpen(id: string) {
+    const modal:boolean | undefined = this.modals.get(id)
+    if (modal !== undefined){
+      return modal
+    } else {
+      throw(`ModalService: Modal with ID ${id} is not registered.`)
+    }
+  }
+
+  public toggleModal(id:string){
+    const mod:boolean | undefined = this.modals.get(id)
+    if (this.modals.get(id) === undefined){
+      throw(`ModalService: Modal with ID ${id} is not registered.`)
+    } else {
+      this.modals.set(id, !mod)
+    }
   }
 }
