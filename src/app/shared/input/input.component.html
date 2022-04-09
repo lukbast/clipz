@@ -1,0 +1,38 @@
+<div class="mb-3">
+    <label>{{label}}</label>
+    <ng-container *ngIf="control.touched && control.dirty">
+        <!-- Required Validator -->
+        <p class="text-red-400" 
+        *ngIf="control.errors?.['required']">
+            Field is required
+        </p>
+        <!-- Name length validator -->
+        <p class="text-red-400" *ngIf="control.errors?.['minlength']">
+            The value you inputted is 
+            {{ control.errors?.['minlength']['actualLength']}}
+            long. It must be at least 
+            {{ control.errors?.['minlength']['requiredLength']}}
+            character long.
+        </p>
+        <!-- Email validator -->
+        <p class="text-red-400" *ngIf="control.errors?.['email']">
+            You must enter a valid email.
+        </p>
+        <!--  Age min validator   -->
+        <p class="text-red-400" *ngIf="control.errors?.['min'] && label === 'Age'">
+            You must be at least 18 years old.
+        </p>
+        <p class="text-red-400" *ngIf="control.errors?.['max'] && label === 'Age'">
+            Value is too high.
+        </p>
+        <p class="text-red-400" *ngIf="control.errors?.['pattern'] && label === 'Password'">
+            Passwords must be at least 8 characters long, have 1 uppercase letter, 1 lovercase letter, 1 number and 1 special character.
+        </p>
+
+    </ng-container>
+    <input [formControl]="control" [mask]="format" [prefix]="prefix_"
+    [dropSpecialCharacters]="false" [type]="type"
+    class="block w-full my-2 py-1.5 px-3 text-gray-200 border border-gray-400 transition
+        duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+    [placeholder]="placeholder" />
+<div>
