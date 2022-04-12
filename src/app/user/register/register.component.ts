@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { IAuthError } from '../types';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-register',
@@ -8,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class RegisterComponent {
 
-  constructor() { }
+  constructor(private auth :AuthService) { }
 
   name = new FormControl('', [
     Validators.required,
@@ -25,7 +28,7 @@ export class RegisterComponent {
   ])
   password = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
   ]
   )
   confirmPassword =  new FormControl('', [
@@ -40,21 +43,40 @@ export class RegisterComponent {
   showAlert = false
   alertMsg = 'Please wait! Your account is being created.'
   alertColor = 'blue'
+  inSubmition = false
 
 
   public registerForm = new FormGroup({
     name: this.name,
     email: this.email,
     age: this.age,
-    passowrd: this.password,
+    password: this.password,
     confirmPassword: this.confirmPassword,
     phoneNumber: this.phoneNumber
   })
 
-  register() {
+  async register() {
     this.showAlert = true
     this.alertMsg = 'Please wait! Your account is being created.'
     this.alertColor = 'blue'
+
+    try {
+      this.inSubmition = true
+      await this.auth.createUser(this.registerForm.value)
+    } catch (err){
+      const e = err as IAuthError
+      if (e.code === 'auth/email-already-in-use'){
+        this.alertMsg = "This email is already in use."
+      } else{
+        this.alertMsg =  'An unexpected error occured. Please try again later.'
+      }
+      this.alertColor= 'red'
+      this.inSubmition = false
+      return 
+    }
+    this.alertColor= "green"
+    this.alertMsg = "Success! Your account has been created"
+    this.inSubmition = false
   }
 
 }
