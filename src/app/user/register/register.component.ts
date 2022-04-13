@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { IAuthError } from '../types';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegisterValidators } from '../validators/register-validators';
+import { EmailTaken } from '../validators/email-taken';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { RegisterValidators } from '../validators/register-validators';
 })
 export class RegisterComponent {
 
-  constructor(private auth :AuthService) { }
+  constructor(private auth :AuthService, 
+    private emailTaken: EmailTaken) { }
 
   name = new FormControl('', [
     Validators.required,
@@ -21,7 +23,7 @@ export class RegisterComponent {
   email = new FormControl('', [
     Validators.required,
     Validators.email
-  ])
+  ], [this.emailTaken.validate])
   age = new FormControl('', [
     Validators.required,
     Validators.min(18),
@@ -66,11 +68,7 @@ export class RegisterComponent {
       await this.auth.createUser(this.registerForm.value)
     } catch (err){
       const e = err as IAuthError
-      if (e.code === 'auth/email-already-in-use'){
-        this.alertMsg = "This email is already in use."
-      } else{
-        this.alertMsg =  'An unexpected error occured. Please try again later.'
-      }
+      this.alertMsg =  'An unexpected error occured. Please try again later.'
       this.alertColor= 'red'
       this.inSubmition = false
       return 

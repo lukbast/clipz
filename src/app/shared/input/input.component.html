@@ -31,6 +31,9 @@
         <p class="text-red-400" *ngIf="control.errors?.['noMatch']">
             Passwords do not match.
         </p>
+        <p class="text-red-400" *ngIf="control.errors?.['emailTaken']">
+            This email is already in use.
+        </p>
 
     </ng-container>
     <input [formControl]="control" [mask]="format" [prefix]="prefix_"
