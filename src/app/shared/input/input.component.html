@@ -25,8 +25,11 @@
         <p class="text-red-400" *ngIf="control.errors?.['max'] && label === 'Age'">
             Value is too high.
         </p>
-        <p class="text-red-400" *ngIf="control.errors?.['pattern'] && label === 'Password'">
+        <p class="text-red-400" *ngIf="control.errors?.['pattern']">
             Passwords must be at least 8 characters long, have 1 uppercase letter, 1 lovercase letter, 1 number and 1 special character.
+        </p>
+        <p class="text-red-400" *ngIf="control.errors?.['noMatch']">
+            Passwords do not match.
         </p>
 
     </ng-container>
