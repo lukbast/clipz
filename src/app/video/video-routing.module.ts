@@ -4,7 +4,10 @@ import { ManageComponent } from './manage/manage.component';
 
 const manageRoute: Route = {
   path: "manage",
-  component: ManageComponent
+  component: ManageComponent,
+  data: {
+    authOnly: true
+  }
 }
 
 const routes: Routes = [manageRoute];
