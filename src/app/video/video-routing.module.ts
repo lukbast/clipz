@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes } from '@angular/router';
 import { ManageComponent } from './manage/manage.component';
+import { UploadComponent } from './upload/upload.component';
 
 const manageRoute: Route = {
   path: "manage",
@@ -9,8 +10,15 @@ const manageRoute: Route = {
     authOnly: true
   }
 }
+const uploadRoute: Route = {
+  path: "upload",
+  component: UploadComponent,
+  data: {
+    authOnly: true
+  }
+}
 
-const routes: Routes = [manageRoute];
+const routes: Routes = [manageRoute, uploadRoute];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

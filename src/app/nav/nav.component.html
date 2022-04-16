@@ -13,25 +13,14 @@
           </li>
           <ng-template  #authLinks>
             <ul class="flex flex-row">
-              
+              <app-link routeRelPath="manage">Manage</app-link>
+              <app-link routeRelPath="upload">Upload</app-link>
               <li>
-                <a class="px-2"  routerLinkActive="text-indigo-400" 
-                [routerLinkActiveOptions]="{ exact: true }" routerLink="/manage" >Manage</a>
-              </li>
-              <li>
-                <a class="px-2" href="#">Upload</a>
-              </li>
-              <li>
-                <a class="px-2" href="#" (click)="logout($event)">Log Out</a>
+                <a class="px-2" href="#" (click)="logout($event)" >Log Out</a>
               </li>
             </ul>
           </ng-template>
-          
-          <li>
-            <a class="px-2" routerLinkActive="text-indigo-400"
-             [routerLinkActiveOptions]="{exact: true}"
-             routerLink="/about" >About</a>
-          </li>
+            <app-link routeRelPath="about">About</app-link>
         </ul>
         <!-- Language Switcher -->
         <ul class="flex flex-row ml-auto">

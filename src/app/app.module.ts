@@ -13,13 +13,15 @@ import { environment } from 'src/environments/environment';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { VideoModule } from './video/video.module';
+import { LinkComponent } from './nav/link/link.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    LinkComponent
   ],
   imports: [
     BrowserModule,
