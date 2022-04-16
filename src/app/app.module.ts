@@ -10,11 +10,15 @@ import { UserModule } from './user/user.module';
 import { NavComponent } from './nav/nav.component';
 import { SharedModule } from './shared/shared.module';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    HomeComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
