@@ -13,6 +13,12 @@ export class UploadComponent implements OnInit {
   file : File | null = null
   nextStep = false
 
+  submited = false
+  showAlert = false
+  alertColor = 'blue'
+  alertMsg = 'Please wait! Your clip is being uploaded.'
+  percentage = 0
+
   title = new FormControl('', [
     Validators.required,
     Validators.minLength(3)
@@ -41,13 +47,22 @@ export class UploadComponent implements OnInit {
     this.nextStep = true
   }
 
-  upload(){
+  async upload(){
+    this.submited = true
+    this.showAlert = true
+    this.alertColor = 'blue'
+    this.alertMsg = 'Please wait! Your clip is being uploaded.'
+
+
     const clipFileName = uuid()
     const clipPath = `clips/${clipFileName}.mp4`
-    console.log(this.file)
-    this.storage.upload(clipPath, this.file)
-
     
+    const task = this.storage.upload(clipPath, this.file)
+    
+    task.percentageChanges().subscribe( (progress) =>{
+      this.percentage = progress as number / 100
+    })
+  
   }
 
 }
