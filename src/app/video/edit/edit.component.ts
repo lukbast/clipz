@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import IClip from 'src/app/models/clip.model';
 import { ClipService } from 'src/app/services/clip.service';
@@ -17,6 +17,7 @@ export class EditComponent implements OnInit, OnChanges {
   showAlert = false
   alertColor = "blue"
   submited = false
+  @Output() update = new EventEmitter()
 
   clipID = new FormControl('')
   title = new FormControl('', [
@@ -51,6 +52,9 @@ export class EditComponent implements OnInit, OnChanges {
   }
 
   async submit(){
+    if (!this.activeClip){
+      return
+    }
     this.submited = true
     this.showAlert = true
     this.alertColor = "blue"
@@ -64,12 +68,17 @@ export class EditComponent implements OnInit, OnChanges {
         return
     }
 
+    this.activeClip.title = this.title.value
+    this.update.emit(this.activeClip)
     this.submited = false
     this.alertColor = 'green'
     this.alertMsg = 'Success!'
 
     setTimeout(() =>{
       this.modal.toggleModal(this.modID)
+      this.alertMsg = "Please wait! Updating the clip."
+      this.showAlert = false
+      this.alertColor = "blue"
     }, 900)
   }
 
